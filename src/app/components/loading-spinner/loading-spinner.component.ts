@@ -12,11 +12,16 @@ import { Component, computed, input } from '@angular/core';
     </div>
   `,
   styles: `
+    :host {
+      max-width: fit-content;
+      margin-inline: auto;
+      display: block;
+    }
     .lds-ring {
       display: inline-block;
       position: relative;
-      width: 80px;
-      height: 80px;
+      width: 64px;
+      height: 64px;
     }
     .lds-ring div {
       box-sizing: border-box;
