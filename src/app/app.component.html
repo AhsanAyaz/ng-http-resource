@@ -1,27 +1,47 @@
 <main class="main">
   <h1 class="text-center text-5xl">Angular HTTP Resource</h1>
   <section
-    class="grid grid-cols-3 gap-4 bg-slate-900 text-white m-4 rounded-md overflow-hidden"
+    class="grid grid-cols-3 gap-4 text-white m-4 rounded-md overflow-hidden"
   >
-    <aside class="p-4">
+    <aside class="p-4 bg-slate-900">
+      @if(usersService.usersResource.isLoading()) {
+      <div class="text-center max-w-fit mx-auto">
+        <app-loading-spinner color="white" />
+      </div>
+      } @else if (usersService.usersResourceError()) {
+      {{ usersService.usersResourceError() }}
+      } @else {
       <ul class="space-y-2">
+        @for (user of usersService.usersResource.value(); track $index) {
         <li
+          (click)="todosService.user.set(user)"
           class="hover:text-amber-400 duration-200 cursor-pointer border-b border-b-transparent hover:border-b-amber-300"
+          [class.text-amber-400]="user.id === todosService.user()?.id"
+          [class.border-b-amber-300!]="user.id === todosService.user()?.id"
         >
-          User 1
+          {{ user.name }}
         </li>
-        <li
-          class="hover:text-amber-400 duration-200 cursor-pointer border-b border-b-transparent hover:border-b-amber-300"
-        >
-          User 1
-        </li>
+        }
       </ul>
+      }
     </aside>
     <div class="col-span-2 bg-slate-100 text-slate-900 p-4">
+      @if(todosService.todosResource.isLoading()) {
+      <div class="text-center max-w-fit mx-auto">
+        <app-loading-spinner />
+      </div>
+      } @else if (todosService.todosResourceError()) {
+      {{ todosService.todosResourceError() }}
+      } @else {
       <ul class="flex flex-col gap-2">
-        <li class="border border-slate-300 rounded-md px-4 py-2">Todo 1</li>
-        <li class="border border-slate-300 rounded-md px-4 py-2">Todo 2</li>
+        @for (todoItem of todosService.todosResource.value(); track todoItem.id)
+        {
+        <li class="border border-slate-300 rounded-md px-4 py-2">
+          {{ todoItem.title }}
+        </li>
+        }
       </ul>
+      }
     </div>
   </section>
 </main>
